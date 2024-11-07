@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran Pengguna - Idola Saya</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <header>
+        <img src="assets/images/logo.png" alt="Logo Luffy" class="logo">
+        <h1>Formulir Pendaftaran Pengguna</h1>
+        <button class="burger" onclick="toggleSidebar()">&#9776;</button>
+    </header>
+
+    <div class="anime-background">
+        <div class="container">
+            <aside class="sidebar" id="sidebar">
+                <nav>
+                    <ul>
+                        <li><a href="indeks.html">Beranda</a></li>
+                        <li><a href="form.html">Formulir</a></li>
+                        <li><a href="tabel.html">Tabel</a></li>
+                    </ul>
+                </nav>
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/onepiece.fanbase_?igsh=YjNhenE0anJpbGp4" target="_blank"><img src="assets/images/instagram.png" alt="Instagram"></a>
+                    <a href="https://x.com/nakamaopindo" target="_blank"><img src="assets/images/twitter.png" alt="Twitter"></a>
+                    <a href="https://chat.whatsapp.com/BoMXHjT7UQyIVXmr4aDewm" target="_blank"><img src="assets/images/whatsapp.png" alt="WhatsApp"></a>
+                </div>
+            </aside>
+
+            <main class="content">
+                <form id="registrationForm" method="GET">
+                    <!-- Kolom username dengan validasi panjang karakter (5-20) dan alfanumerik -->
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" pattern="[a-zA-Z0-9]{5,20}" required>
+                    <small id="usernameHelp"></small> <!-- Pesan bantuan validasi username -->
+
+                    <!-- Kolom email dengan validasi format email yang valid -->
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                    <small id="emailHelp"></small> <!-- Pesan bantuan validasi email -->
+
+                    <!-- Kolom password dengan validasi minimal 8 karakter, mencakup huruf dan angka -->
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}" required>
+                    <small id="passwordHelp"></small> <!-- Pesan bantuan validasi password -->
+
+                    <!-- Kolom konfirmasi password, harus cocok dengan kolom password -->
+                    <label for="confirmPassword">Konfirmasi Password:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    <small id="confirmPasswordHelp"></small> <!-- Pesan bantuan kecocokan password -->
+
+                    <!-- Tombol submit dengan validasi akhir -->
+                    <input type="submit" value="Daftar">
+                </form>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Idola Saya - Semua tentang Monkey D. Luffy</p>
+    </footer>
+
+    <script>
+        // Fungsi untuk menampilkan/menyembunyikan sidebar saat tombol burger ditekan
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("active");
+        }
+
+        // Validasi username saat pengguna mengetik (keyup event)
+        document.getElementById('username').addEventListener('keyup', function () {
+            const usernameInput = this.value;
+            const usernameHelp = document.getElementById('usernameHelp');
+            if (usernameInput.length < 5 || usernameInput.length > 20) {
+                usernameHelp.textContent = 'Username harus 5-20 karakter.';
+                usernameHelp.style.color = 'red';
+            } else if (!/^[a-zA-Z0-9]+$/.test(usernameInput)) {
+                usernameHelp.textContent = 'Username hanya boleh alfanumerik.';
+                usernameHelp.style.color = 'red';
+            } else {
+                usernameHelp.textContent = 'Username valid.';
+                usernameHelp.style.color = 'green';
+            }
+        });
+
+        // Validasi email saat pengguna mengubah nilai (change event)
+        document.getElementById('email').addEventListener('change', function () {
+            const emailInput = this.value;
+            const emailHelp = document.getElementById('emailHelp');
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput)) {
+                emailHelp.textContent = 'Format email tidak valid.';
+                emailHelp.style.color = 'red';
+            } else {
+                emailHelp.textContent = 'Email valid.';
+                emailHelp.style.color = 'green';
+            }
+        });
+
+        // Validasi kekuatan password saat pengguna mengetik (keyup event)
+        document.getElementById('password').addEventListener('keyup', function () {
+            const passwordInput = this.value;
+            const passwordHelp = document.getElementById('passwordHelp');
+            if (passwordInput.length < 8) {
+                passwordHelp.textContent = 'Password minimal 8 karakter.';
+                passwordHelp.style.color = 'red';
+            } else if (!/[0-9]/.test(passwordInput) || !/[a-zA-Z]/.test(passwordInput)) {
+                passwordHelp.textContent = 'Password harus mengandung huruf dan angka.';
+                passwordHelp.style.color = 'red';
+            } else {
+                passwordHelp.textContent = 'Password kuat.';
+                passwordHelp.style.color = 'green';
+            }
+        });
+
+        // Validasi kecocokan password saat pengguna mengetik (input event)
+        document.getElementById('confirmPassword').addEventListener('input', function () {
+            const passwordInput = document.getElementById('password').value;
+            const confirmPasswordInput = this.value;
+            const confirmPasswordHelp = document.getElementById('confirmPasswordHelp');
+            if (confirmPasswordInput !== passwordInput) {
+                confirmPasswordHelp.textContent = 'Password tidak cocok.';
+                confirmPasswordHelp.style.color = 'red';
+            } else {
+                confirmPasswordHelp.textContent = 'Password cocok.';
+                confirmPasswordHelp.style.color = 'green';
+            }
+        });
+
+        // Validasi akhir saat submit formulir
+        document.getElementById('registrationForm').addEventListener('submit', function (e) {
+            const usernameHelp = document.getElementById('usernameHelp').textContent;
+            const emailHelp = document.getElementById('emailHelp').textContent;
+            const passwordHelp = document.getElementById('passwordHelp').textContent;
+            const confirmPasswordHelp = document.getElementById('confirmPasswordHelp').textContent;
+
+            // Cek apakah ada pesan kesalahan
+            if (usernameHelp !== 'Username valid.' || emailHelp !== 'Email valid.' || passwordHelp !== 'Password kuat.' || confirmPasswordHelp !== 'Password cocok.') {
+                e.preventDefault(); // Cegah pengiriman jika ada validasi yang gagal
+                alert('Harap perbaiki kesalahan sebelum mengirim formulir.');
+            }
+        });
+    </script>
+</body>
+</html>
